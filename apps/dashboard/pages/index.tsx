@@ -1,4 +1,3 @@
-import { ISetting } from "@pm2.web/typings";
 import { InferGetServerSidePropsType } from "next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";

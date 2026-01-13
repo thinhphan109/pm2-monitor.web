@@ -1,4 +1,4 @@
-import { Badge, Button, Flex, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
+import { Badge, Button, Group, Stack, Text, Title } from "@mantine/core";
 import { ISetting } from "@pm2.web/typings";
 import { IconAlertTriangle, IconClock, IconLogin } from "@tabler/icons-react";
 import Link from "next/link";

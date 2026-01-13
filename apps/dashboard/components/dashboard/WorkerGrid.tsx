@@ -1,5 +1,5 @@
-import { Badge, Center, Flex, Group, Paper, Stack, Text, ThemeIcon } from "@mantine/core";
-import { IconCircleCheck, IconCircleX, IconClock, IconCpu, IconDatabase, IconServer, IconStack2 } from "@tabler/icons-react";
+import { Flex, Group, Paper, Stack, Text, ThemeIcon } from "@mantine/core";
+import { IconClock, IconCpu, IconDatabase, IconServer } from "@tabler/icons-react";
 import ms from "ms";
 
 interface WorkerGridProps {

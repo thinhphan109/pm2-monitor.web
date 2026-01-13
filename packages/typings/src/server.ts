@@ -8,8 +8,11 @@ interface IServer {
   createdAt?: string;
   updatedAt: string;
   processes: IProcess[];
+  serverCpu?: number;
+  serverRam?: number;
+  serverUptime?: number;
 }
 
-type IServerModel = Omit<IServer, "processes">;
+type IServerModel = Omit<IServer, "processes" | "serverCpu" | "serverRam" | "serverUptime">;
 
 export type { IServer, IProcess, IServerModel };

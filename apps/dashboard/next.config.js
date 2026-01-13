@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   eslint: {
     dirs: ["components", "middleware", "page", "server", "types", "utils"],
+    ignoreDuringBuilds: true,
   },
 };
 

@@ -1,4 +1,4 @@
-import { Badge, ScrollArea, Table, Text } from "@mantine/core";
+import { ScrollArea, Table, Text } from "@mantine/core";
 import { IconAlertTriangle } from "@tabler/icons-react";
 import ms from "ms";
 

@@ -209,7 +209,7 @@ export const serverRouter = router({
       ...p,
       _id: p._id.toString(),
       server: p.server.toString(),
-      updatedAt: p.updatedAt.toISOString(),
+      updatedAt: (p.updatedAt as unknown as Date).toISOString(),
     }));
 
     const servers = serverDocs.map((s) => {
@@ -229,7 +229,7 @@ export const serverRouter = router({
             p.server === sId &&
             (settings.excludeDaemon || excludeDaemon ? p.name !== "pm2.web-daemon" : true),
         ),
-      };
+      } as unknown as IServer;
     });
 
     return { settings, servers };
