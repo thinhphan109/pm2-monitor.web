@@ -62,7 +62,7 @@ export default function PublicDashboard({ servers, settings }: PublicDashboardPr
                             <div key={server._id} className="space-y-3">
                                 <Group justify="space-between">
                                     <Text size="sm" fw={600} className="text-slate-300">{server.name}</Text>
-                                    <Badge variant="dot" color={new Date(server.heartbeat).getTime() > Date.now() - 30000 ? "emerald" : "rose"}>
+                                    <Badge variant="dot" color={new Date(server.heartbeat).getTime() > Date.now() - 30000 ? "emerald" : "rose"} suppressHydrationWarning>
                                         {new Date(server.heartbeat).getTime() > Date.now() - 30000 ? "Active" : "Disrupted"}
                                     </Badge>
                                 </Group>

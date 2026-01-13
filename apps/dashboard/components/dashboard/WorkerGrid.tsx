@@ -43,7 +43,7 @@ export default function WorkerGrid({ servers }: WorkerGridProps) {
                                         </Text>
                                         <Group gap={6}>
                                             <div className={`w-1.5 h-1.5 rounded-full ${isOnline ? "bg-emerald-400" : "bg-rose-500 animate-pulse"}`} />
-                                            <Text size="xs" className="text-slate-500 font-mono">
+                                            <Text size="xs" className="text-slate-500 font-mono" suppressHydrationWarning>
                                                 {isOnline ? "ONLINE" : "OFFLINE"}
                                             </Text>
                                         </Group>
