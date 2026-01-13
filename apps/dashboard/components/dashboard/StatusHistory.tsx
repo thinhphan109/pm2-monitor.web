@@ -37,9 +37,9 @@ export default function StatusHistory({ serverId, history }: StatusHistoryProps)
     return (
         <Stack gap={4}>
             <Group justify="space-between">
-                <Text size="xs" fw={600} className="text-slate-400">24h History</Text>
+                <Text size="xs" fw={600} className="text-slate-400">Lịch sử 24h</Text>
                 <Text size="xs" fw={700} className={uptimePercentage > 95 ? "text-emerald-400" : "text-amber-400"}>
-                    {uptimePercentage}% Reliability
+                    {uptimePercentage}% Độ ổn định
                 </Text>
             </Group>
 
@@ -47,7 +47,7 @@ export default function StatusHistory({ serverId, history }: StatusHistoryProps)
                 {bars.map((bar, idx) => (
                     <Tooltip
                         key={idx}
-                        label={`${bar.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}: ${bar.online ? 'Stable' : 'No Data / Disconnected'}`}
+                        label={`${bar.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}: ${bar.online ? 'Ổn định' : 'Mất kết nối / Không có dữ liệu'}`}
                         position="top"
                         withArrow
                     >
@@ -60,8 +60,8 @@ export default function StatusHistory({ serverId, history }: StatusHistoryProps)
             </Group>
 
             <Group justify="space-between" className="px-0.5">
-                <Text size="[10px]" className="text-slate-600">24h ago</Text>
-                <Text size="[10px]" className="text-slate-600">Now</Text>
+                <Text size="[10px]" className="text-slate-600">24h trước</Text>
+                <Text size="[10px]" className="text-slate-600">Hiện tại</Text>
             </Group>
         </Stack>
     );

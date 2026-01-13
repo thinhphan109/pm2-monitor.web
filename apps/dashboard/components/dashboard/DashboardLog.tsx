@@ -1,6 +1,6 @@
-import { ScrollArea } from "@mantine/core";
-import { IconTerminal2 } from "@tabler/icons-react";
-import { useRef } from "react";
+import { ActionIcon, ScrollArea, Tooltip } from "@mantine/core";
+import { IconArrowDown, IconTerminal2 } from "@tabler/icons-react";
+import { useEffect, useRef, useState } from "react";
 
 import { trpc } from "@/utils/trpc";
 
@@ -11,12 +11,30 @@ interface DashboardLogProps {
 
 export default function DashboardLog({ refetchInterval, processIds }: DashboardLogProps) {
   const scrollViewport = useRef<HTMLDivElement>(null);
+  const [shouldScroll, setShouldScroll] = useState(true);
+
   const { data } = trpc.server.getLogs.useQuery(
     { processIds },
     {
       refetchInterval: refetchInterval,
     },
   );
+
+  const scrollToBottom = () =>
+    scrollViewport.current?.scrollTo({ top: scrollViewport.current.scrollHeight, behavior: 'smooth' });
+
+  useEffect(() => {
+    if (shouldScroll && data) {
+      scrollToBottom();
+    }
+  }, [data, shouldScroll]);
+
+  const onScrollPositionChange = ({ y }: { x: number; y: number }) => {
+    if (scrollViewport.current) {
+      const isAtBottom = scrollViewport.current.scrollHeight - scrollViewport.current.clientHeight <= y + 20;
+      setShouldScroll(isAtBottom);
+    }
+  };
 
   const logColors = {
     success: "text-emerald-400",
@@ -33,18 +51,19 @@ export default function DashboardLog({ refetchInterval, processIds }: DashboardL
         <span className="text-sm font-medium text-slate-200">Logs</span>
         {data?.length && (
           <span className="text-xs text-slate-500">
-            ({data.length} entries)
+            ({data.length} dòng)
           </span>
         )}
       </div>
 
       {/* Terminal-style Log Viewer */}
-      <div className="terminal-bg flex-1 overflow-hidden">
+      <div className="terminal-bg flex-1 overflow-hidden relative group">
         <ScrollArea.Autosize
           viewportRef={scrollViewport}
-          mah="50vh"
+          mah="70vh"
           className="custom-scrollbar"
           offsetScrollbars
+          onScrollPositionChange={onScrollPositionChange}
         >
           <div className="p-4 font-mono text-sm">
             {data?.length ? (
@@ -86,12 +105,30 @@ export default function DashboardLog({ refetchInterval, processIds }: DashboardL
             ) : (
               <div className="flex flex-col items-center justify-center py-12 text-slate-500">
                 <IconTerminal2 size={32} className="mb-2 opacity-50" />
-                <span className="text-sm">No logs available</span>
-                <span className="text-xs mt-1">Logs will appear here when processes generate output</span>
+                <span className="text-sm">Không có dữ liệu Log</span>
+                <span className="text-xs mt-1">Logs sẽ xuất hiện khi các process có dữ liệu output</span>
               </div>
             )}
           </div>
         </ScrollArea.Autosize>
+
+        {/* Scroll to Bottom Button */}
+        {!shouldScroll && (
+          <div className="absolute bottom-6 right-8 z-10">
+            <Tooltip label="Cuộn xuống cuối" position="left" withArrow>
+              <ActionIcon
+                variant="filled"
+                color="indigo"
+                radius="xl"
+                size="lg"
+                onClick={scrollToBottom}
+                className="shadow-xl shadow-indigo-500/30"
+              >
+                <IconArrowDown size={20} />
+              </ActionIcon>
+            </Tooltip>
+          </div>
+        )}
       </div>
     </div>
   );

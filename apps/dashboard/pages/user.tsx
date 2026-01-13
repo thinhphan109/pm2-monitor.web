@@ -46,13 +46,13 @@ export default function User({ }: InferGetServerSidePropsType<typeof getServerSi
 
   const updatePerms = trpc.user.setCustomPermission.useMutation({
     onMutate() {
-      actionNotification(`update-perms`, "Updating permissions", "Please wait...", "pending");
+      actionNotification(`update-perms`, "Đang cập nhật quyền hạn", "Vui lòng đợi...", "pending");
     },
     onError(error) {
-      actionNotification(`update-perms`, "Failed to update permissions", error.message, "error");
+      actionNotification(`update-perms`, "Cập nhật quyền hạn thất bại", error.message, "error");
     },
     onSuccess(data) {
-      actionNotification(`update-perms`, "Permissions updated", data, "success");
+      actionNotification(`update-perms`, "Cập nhật quyền hạn thành công", data, "success");
       usersQuery.refetch();
     },
   });
@@ -127,7 +127,7 @@ export default function User({ }: InferGetServerSidePropsType<typeof getServerSi
   return (
     <>
       <Head>
-        <title>PM2 Monitor - User Administration</title>
+        <title>PM2 Monitor - Quản trị người dùng</title>
         <meta name="description" content="PM2 Monitor User Administration" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/png" href="/logo.png" />
@@ -141,10 +141,10 @@ export default function User({ }: InferGetServerSidePropsType<typeof getServerSi
             </div>
             <div>
               <h1 className="text-xl font-semibold text-white tracking-tight">
-                User Administration
+                Quản trị người dùng
               </h1>
               <p className="text-sm text-slate-400">
-                Manage users and access permissions
+                Quản lý người dùng và quyền truy cập mã nguồn
               </p>
             </div>
           </div>
@@ -165,7 +165,7 @@ export default function User({ }: InferGetServerSidePropsType<typeof getServerSi
                 <Flex direction="column" h="100%">
                   <div className="flex items-center gap-2 mb-6">
                     <IconShieldCheck size={18} className="text-emerald-400" />
-                    <h2 className="text-lg font-medium text-white">Custom Permissions</h2>
+                    <h2 className="text-lg font-medium text-white">Phân quyền tùy chỉnh</h2>
                   </div>
 
                   <Flex direction="column" justify="space-between" h="100%" className="relative">
@@ -211,7 +211,7 @@ export default function User({ }: InferGetServerSidePropsType<typeof getServerSi
                                 data={permissionData}
                                 itemComponent={SelectItemComponent}
                                 pillComponent={PillComponent}
-                                placeholder="Select Permissions"
+                                placeholder="Chọn quyền hạn"
                                 variant="filled"
                                 radius="lg"
                                 size="sm"
@@ -292,7 +292,7 @@ export default function User({ }: InferGetServerSidePropsType<typeof getServerSi
                                 variant="outline"
                                 className="border-slate-600 text-slate-400"
                               >
-                                Select a User First
+                                Chọn một người dùng trước
                               </Badge>
                             </div>
                           </Overlay>
@@ -316,7 +316,7 @@ export default function User({ }: InferGetServerSidePropsType<typeof getServerSi
                         }
                         className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 border-0"
                       >
-                        Save Permissions
+                        Lưu quyền hạn
                       </Button>
                     </Flex>
                   </Flex>

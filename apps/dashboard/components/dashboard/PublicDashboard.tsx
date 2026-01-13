@@ -30,7 +30,7 @@ export default function PublicDashboard({ servers, settings }: PublicDashboardPr
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-3">
                         <div className="w-1.5 h-6 bg-indigo-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]" />
-                        <Title order={3} className="text-white tracking-tight">Worker Ecosystem Status</Title>
+                        <Title order={3} className="text-white tracking-tight">Trạng thái hệ thống</Title>
                     </div>
 
                     <Link href="/login" passHref>
@@ -41,7 +41,7 @@ export default function PublicDashboard({ servers, settings }: PublicDashboardPr
                             leftSection={<IconLogin size={14} />}
                             className="bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20 hover:text-indigo-200 transition-colors"
                         >
-                            Admin Login
+                            Đăng nhập Admin
                         </Button>
                     </Link>
                 </div>
@@ -54,7 +54,7 @@ export default function PublicDashboard({ servers, settings }: PublicDashboardPr
                 <Stack gap="xl">
                     <div className="flex items-center gap-2">
                         <IconClock size={20} className="text-indigo-400" />
-                        <Text fw={600} className="text-white">Uptime & Reliability Tracking</Text>
+                        <Text fw={600} className="text-white">Lịch sử Uptime</Text>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
@@ -63,7 +63,7 @@ export default function PublicDashboard({ servers, settings }: PublicDashboardPr
                                 <Group justify="space-between">
                                     <Text size="sm" fw={600} className="text-slate-300">{server.name}</Text>
                                     <Badge variant="dot" color={new Date(server.heartbeat).getTime() > Date.now() - 30000 ? "emerald" : "rose"} suppressHydrationWarning>
-                                        {new Date(server.heartbeat).getTime() > Date.now() - 30000 ? "Active" : "Disrupted"}
+                                        {new Date(server.heartbeat).getTime() > Date.now() - 30000 ? "Hoạt động" : "Gián đoạn"}
                                     </Badge>
                                 </Group>
                                 <StatusHistory serverId={server._id} history={historyData || []} />
@@ -78,14 +78,14 @@ export default function PublicDashboard({ servers, settings }: PublicDashboardPr
                 <Stack gap="md">
                     <div className="flex items-center gap-2 mb-2">
                         <IconAlertTriangle size={20} className="text-rose-400" />
-                        <Text fw={600} className="text-white">Latest Interruption Logs</Text>
+                        <Text fw={600} className="text-white">Sự cố gần đây</Text>
                     </div>
                     <RecentIncidents incidents={incidentData || []} />
                 </Stack>
             </div>
 
             <Text size="xs" className="text-slate-600 text-center mt-auto pb-4">
-                * History reflects data captured by the standalone monitor agent.
+                * Lịch sử được ghi nhận bởi standalone monitor agent.
             </Text>
         </div>
     );

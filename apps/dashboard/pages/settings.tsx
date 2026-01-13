@@ -5,6 +5,7 @@ import Head from "next/head";
 import { useSession } from "next-auth/react";
 
 import { Dashboard } from "@/components/layouts/Dashboard";
+import AddUser from "@/components/settings/AddUser";
 import DatabaseAction from "@/components/settings/DatabaseAction";
 import DeleteAccount from "@/components/settings/DeleteAccount";
 import UnlinkOAuth2 from "@/components/settings/UnlinkOAuth2";
@@ -25,7 +26,7 @@ export default function Settings({ }: InferGetServerSidePropsType<typeof getServ
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="flex items-center gap-3">
           <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-          <span className="text-slate-400">Loading settings...</span>
+          <span className="text-slate-400">Đang tải cài đặt...</span>
         </div>
       </div>
     );
@@ -34,7 +35,7 @@ export default function Settings({ }: InferGetServerSidePropsType<typeof getServ
   return (
     <>
       <Head>
-        <title>PM2 Monitor - Settings</title>
+        <title>PM2 Monitor - Cài đặt</title>
         <meta name="description" content="PM2 Monitor Settings" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/png" href="/logo.png" />
@@ -49,10 +50,10 @@ export default function Settings({ }: InferGetServerSidePropsType<typeof getServ
             </div>
             <div>
               <h1 className="text-xl font-semibold text-white tracking-tight">
-                Settings
+                Cài đặt
               </h1>
               <p className="text-sm text-slate-400">
-                Configure your PM2 Monitor dashboard
+                Cấu hình dashboard PM2 Monitor của bạn
               </p>
             </div>
           </div>
@@ -64,7 +65,7 @@ export default function Settings({ }: InferGetServerSidePropsType<typeof getServ
               <div className="glass-card p-6 h-full relative">
                 <div className="flex items-center gap-2 mb-6">
                   <IconSettings size={18} className="text-slate-400" />
-                  <h2 className="text-lg font-medium text-white">Configuration</h2>
+                  <h2 className="text-lg font-medium text-white">Cấu hình hệ thống</h2>
                 </div>
 
                 <ScrollArea className="custom-scrollbar">
@@ -80,6 +81,7 @@ export default function Settings({ }: InferGetServerSidePropsType<typeof getServ
                     }}
                   >
                     <UpdateConfiguration settings={settings} />
+                    <AddUser />
                     <DatabaseAction />
                   </Accordion>
                 </ScrollArea>
@@ -104,7 +106,7 @@ export default function Settings({ }: InferGetServerSidePropsType<typeof getServ
                         color="red"
                         className="border-rose-500/50 text-rose-400"
                       >
-                        Owner/Admin Permission Required
+                        Yêu cầu quyền Owner/Admin
                       </Badge>
                     </div>
                   </Overlay>
@@ -117,7 +119,7 @@ export default function Settings({ }: InferGetServerSidePropsType<typeof getServ
               <div className="glass-card p-6 h-full">
                 <div className="flex items-center gap-2 mb-6">
                   <IconUser size={18} className="text-slate-400" />
-                  <h2 className="text-lg font-medium text-white">User Settings</h2>
+                  <h2 className="text-lg font-medium text-white">Tài khoản</h2>
                 </div>
 
                 <Accordion

@@ -1,13 +1,9 @@
 import {
   Alert,
-  Anchor,
   Button,
-  Checkbox,
   Divider,
   Group,
-  Input,
   PasswordInput,
-  PinInput,
   Stack,
   Text,
   TextInput,
@@ -15,7 +11,6 @@ import {
   Transition,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { upperFirst, useToggle } from "@mantine/hooks";
 import { IconBrandGithub, IconBrandGoogle, IconServer } from "@tabler/icons-react";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
@@ -23,29 +18,19 @@ import { useRouter } from "next/router";
 import { getCsrfToken, signIn } from "next-auth/react";
 import { useState } from "react";
 
-import { getServerSideHelpers } from "@/server/helpers";
-
 export default function AuthenticationForm({
   csrfToken,
-  registrationCodeRequired,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [type, toggle] = useToggle(["login", "register"]);
   const [authLoading, setAuthLoading] = useState(false);
   const form = useForm({
     initialValues: {
       email: "",
-      name: "",
       password: "",
-      terms: false,
-      registrationCode: "",
     },
 
     validate: {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
       password: (val) => (val.length <= 6 ? "Password should include at least 6 characters" : null),
-      registrationCode: (val) =>
-        registrationCodeRequired && !val && type == "register" ? "Registration code is required" : null,
-      terms: (val) => (!val && type == "register" ? "You need to accept terms and conditions" : null),
     },
   });
   const router = useRouter();
@@ -54,7 +39,7 @@ export default function AuthenticationForm({
   return (
     <>
       <Head>
-        <title>PM2 Monitor - Login</title>
+        <title>PM2 Monitor - Đăng nhập</title>
         <meta name="description" content="PM2 Process Monitor Dashboard" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/png" href="/logo.png" />
@@ -81,54 +66,50 @@ export default function AuthenticationForm({
                 </h1>
               </div>
               <Text size="sm" c="dimmed">
-                {type === "login" ? "Sign in to your account" : "Create a new account"}
+                Đăng nhập vào tài khoản của bạn
               </Text>
             </div>
 
-            {/* OAuth Buttons (Login only) */}
-            {type !== "register" && (
-              <>
-                <Group grow mb="md">
-                  {process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && (
-                    <Button
-                      leftSection={<IconBrandGoogle size={18} />}
-                      variant="default"
-                      radius="lg"
-                      className="btn-secondary hover:border-slate-500"
-                    >
-                      Google
-                    </Button>
-                  )}
-                  {process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID && (
-                    <Tooltip label="Registered user account required" position="top">
-                      <Button
-                        leftSection={<IconBrandGithub size={18} />}
-                        variant="default"
-                        radius="lg"
-                        className="btn-secondary hover:border-slate-500"
-                        onClick={() =>
-                          signIn("github", {
-                            callbackUrl: (callbackUrl as string) || "/",
-                          })
-                        }
-                      >
-                        Github
-                      </Button>
-                    </Tooltip>
-                  )}
-                </Group>
+            {/* OAuth Buttons */}
+            <Group grow mb="md">
+              {process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && (
+                <Button
+                  leftSection={<IconBrandGoogle size={18} />}
+                  variant="default"
+                  radius="lg"
+                  className="btn-secondary hover:border-slate-500"
+                >
+                  Google
+                </Button>
+              )}
+              {process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID && (
+                <Tooltip label="Đăng nhập với GitHub" position="top">
+                  <Button
+                    leftSection={<IconBrandGithub size={18} />}
+                    variant="default"
+                    radius="lg"
+                    className="btn-secondary hover:border-slate-500"
+                    onClick={() =>
+                      signIn("github", {
+                        callbackUrl: (callbackUrl as string) || "/",
+                      })
+                    }
+                  >
+                    Github
+                  </Button>
+                </Tooltip>
+              )}
+            </Group>
 
-                {(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID) && (
-                  <Divider
-                    label="or continue with email"
-                    labelPosition="center"
-                    my="lg"
-                    classNames={{
-                      label: "text-slate-500 text-xs",
-                    }}
-                  />
-                )}
-              </>
+            {(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID) && (
+              <Divider
+                label="hoặc tiếp tục với email"
+                labelPosition="center"
+                my="lg"
+                classNames={{
+                  label: "text-slate-500 text-xs",
+                }}
+              />
             )}
 
             {/* Login Form */}
@@ -137,7 +118,7 @@ export default function AuthenticationForm({
                 setAuthLoading(true);
                 const res = await signIn("credentials", {
                   ...values,
-                  type: type,
+                  type: "login",
                   redirect: false,
                 });
                 router.replace(res?.ok ? (callbackUrl as string) || "/" : `/login?error=${res?.error}`);
@@ -155,21 +136,6 @@ export default function AuthenticationForm({
                 </Transition>
 
                 <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-
-                {/* Name Field (Register only) */}
-                {type === "register" && (
-                  <TextInput
-                    name="name"
-                    label="Name"
-                    placeholder="Your name"
-                    {...form.getInputProps("name")}
-                    radius="lg"
-                    classNames={{
-                      label: "text-slate-400 text-sm mb-1",
-                      input: "bg-slate-900/50 border-slate-700 focus:border-indigo-500",
-                    }}
-                  />
-                )}
 
                 {/* Email Field */}
                 <TextInput
@@ -189,8 +155,8 @@ export default function AuthenticationForm({
                 <PasswordInput
                   required
                   name="password"
-                  label="Password"
-                  placeholder="Your password"
+                  label="Mật khẩu"
+                  placeholder="Nhập mật khẩu"
                   {...form.getInputProps("password")}
                   radius="lg"
                   classNames={{
@@ -198,52 +164,17 @@ export default function AuthenticationForm({
                     input: "bg-slate-900/50 border-slate-700 focus:border-indigo-500",
                   }}
                 />
-
-                {/* Registration Fields */}
-                {type === "register" && (
-                  <>
-                    {registrationCodeRequired && (
-                      <Input.Wrapper label="Registration code" required classNames={{ label: "text-slate-400 text-sm" }}>
-                        <PinInput
-                          name="registrationCode"
-                          {...form.getInputProps("registrationCode")}
-                          radius="lg"
-                          length={6}
-                          mt="xs"
-                        />
-                      </Input.Wrapper>
-                    )}
-                    <Checkbox
-                      label="I accept terms and conditions"
-                      required
-                      {...form.getInputProps("terms", { type: "checkbox" })}
-                      classNames={{
-                        label: "text-slate-400 text-sm",
-                      }}
-                    />
-                  </>
-                )}
               </Stack>
 
               {/* Actions */}
-              <Group justify="space-between" mt="xl">
-                <Anchor
-                  component="button"
-                  type="button"
-                  c="dimmed"
-                  onClick={() => toggle()}
-                  size="xs"
-                  className="text-slate-500 hover:text-slate-300 transition-colors"
-                >
-                  {type === "register" ? "Already have an account? Login" : "Don't have an account? Register"}
-                </Anchor>
+              <Group justify="flex-end" mt="xl">
                 <Button
                   type="submit"
                   radius="lg"
                   loading={authLoading}
                   className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 border-0 shadow-lg shadow-indigo-500/20"
                 >
-                  {upperFirst(type)}
+                  Đăng nhập
                 </Button>
               </Group>
             </form>
@@ -251,7 +182,7 @@ export default function AuthenticationForm({
 
           {/* Footer */}
           <p className="text-center text-slate-600 text-xs mt-6">
-            Powered by PM2 Process Manager
+            Được hỗ trợ bởi PM2 Process Manager
           </p>
         </div>
       </main>
@@ -297,12 +228,10 @@ const SignInError = ({ error }: { error: string }) => {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const csrfToken = await getCsrfToken(context);
-  const helpers = await getServerSideHelpers();
 
   return {
     props: {
       csrfToken,
-      registrationCodeRequired: await helpers.setting.registrationCodeRequired.fetch(),
     },
   };
 }

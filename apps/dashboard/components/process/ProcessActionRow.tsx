@@ -16,8 +16,8 @@ export default function ProcessAction({ processId }: ProcessActionProps) {
       if (!data) {
         sendNotification(
           variables.action + processId,
-          `Failed ${variables.action}`,
-          `Server didn't respond`,
+          `Thao tác ${variables.action} thất bại`,
+          `Server không phản hồi`,
           `error`
         );
       }
@@ -69,7 +69,7 @@ export default function ProcessAction({ processId }: ProcessActionProps) {
       <ActionButton
         action="RESTART"
         icon={IconRefresh}
-        label="Restart Process"
+        label="Khởi động lại (Restart)"
         colorClass="text-slate-400"
         hoverClass="hover:text-emerald-400 hover:bg-emerald-400/10 hover:border-emerald-400/30"
       />
@@ -78,7 +78,7 @@ export default function ProcessAction({ processId }: ProcessActionProps) {
       <ActionButton
         action="STOP"
         icon={IconPlayerStop}
-        label="Stop Process"
+        label="Dừng (Stop)"
         colorClass="text-slate-400"
         hoverClass="hover:text-amber-400 hover:bg-amber-400/10 hover:border-amber-400/30"
       />
@@ -87,7 +87,7 @@ export default function ProcessAction({ processId }: ProcessActionProps) {
       <ActionButton
         action="DELETE"
         icon={IconTrash}
-        label="Delete Process"
+        label="Xóa (Delete)"
         colorClass="text-slate-400"
         hoverClass="hover:text-rose-400 hover:bg-rose-400/10 hover:border-rose-400/30"
       />

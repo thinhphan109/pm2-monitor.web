@@ -345,3 +345,11 @@
   border: 1px solid var(--glass-border) !important;
   border-radius: 0.5rem;
 }
+
+/* Mantine DonutChart label fix */
+.m_ddb0bfe3,
+.mantine-DonutChart-label {
+  fill: #ffffff !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+}

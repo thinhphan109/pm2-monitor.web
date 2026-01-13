@@ -28,7 +28,8 @@ export function Head({ mobileOpened, toggleMobile }: HeadProps) {
 
   const hasAccess = (server_id: string, process_id: string) => {
     const user = session?.user;
-    if (!user || !user.acl) return false;
+    // If no user (guest with PIN), allow viewing all
+    if (!user || !user.acl) return true;
     if (!user?.acl?.owner && !user?.acl?.admin) {
       return !!new Access(user.acl?.servers ?? []).getPermsValue(server_id, process_id);
     }
@@ -54,7 +55,7 @@ export function Head({ mobileOpened, toggleMobile }: HeadProps) {
               selectItem?.(values, "servers");
             }}
             itemComponent={itemComponent}
-            placeholder="Select Server"
+            placeholder="Chọn Server"
             searchable
             w={{ base: "100%", md: "14rem" }}
             radius="lg"
@@ -88,7 +89,7 @@ export function Head({ mobileOpened, toggleMobile }: HeadProps) {
             onChange={(values) => {
               selectItem(values, "processes");
             }}
-            placeholder="Select Process"
+            placeholder="Chọn Process"
             searchable
             w={{ base: "100%", md: "14rem" }}
             maxValues={4}
@@ -116,7 +117,7 @@ export function Head({ mobileOpened, toggleMobile }: HeadProps) {
       <Modal
         opened={filterOpened}
         onClose={closeFilter}
-        title="Filter Servers & Processes"
+        title="Lọc Server & Process"
         centered
         size="sm"
         radius="lg"
@@ -137,7 +138,8 @@ export function Head({ mobileOpened, toggleMobile }: HeadProps) {
             opened={mobileOpened}
             onClick={toggleMobile}
             size="sm"
-            className="lg:hidden text-slate-400"
+            className="lg:hidden"
+            color="white"
           />
 
           {/* Logo */}

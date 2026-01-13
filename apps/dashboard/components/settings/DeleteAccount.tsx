@@ -12,17 +12,17 @@ export default function DeleteAccount() {
       password: "",
     },
     validate: {
-      password: (val) => (val.length <= 6 ? "Password should include at least 6 characters" : null),
+      password: (val) => (val.length <= 6 ? "Mật khẩu phải có ít nhất 6 ký tự" : null),
     },
   });
 
   const deleteAccount = trpc.user.deleteAccount.useMutation({
     onSuccess(data) {
-      sendNotification("deleteAccount", "Success", data, "success");
+      sendNotification("deleteAccount", "Thành công", data, "success");
       signOut();
     },
     onError(error) {
-      sendNotification("deleteAccount", "Failed", error.message, "error");
+      sendNotification("deleteAccount", "Thất bại", error.message, "error");
       deleteForm.setFieldError("password", error.message);
     },
   });
@@ -38,20 +38,20 @@ export default function DeleteAccount() {
           />
         }
       >
-        <Title order={5}>Delete Account</Title>
+        <Title order={5}>Xóa tài khoản</Title>
       </Accordion.Control>
       <Accordion.Panel px="xs">
         <form onSubmit={deleteForm.onSubmit((values) => deleteAccount.mutate({ password: values.password }))}>
           <Stack my={"xs"}>
             <TextInput
-              label="Password"
-              placeholder="Password"
+              label="Mật khẩu"
+              placeholder="Nhập mật khẩu để xác nhận"
               required
               type="password"
               {...deleteForm.getInputProps("password")}
             />
             <Button type="submit" variant="light" color="red" loading={deleteAccount.isPending}>
-              Delete Account
+              Xóa tài khoản
             </Button>
           </Stack>
         </form>

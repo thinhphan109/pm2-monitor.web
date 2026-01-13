@@ -19,7 +19,7 @@ const SelectedContext = createContext<SelectedContextType>({
     servers: [],
     processes: [],
   },
-  selectItem: () => {},
+  selectItem: () => { },
   selectedProcesses: [],
   selectedServers: [],
   servers: [],
@@ -44,8 +44,8 @@ export function SelectedProvider({ children, servers }: { children: React.ReactN
         processes:
           items.length > 0
             ? selectedItem.processes.filter((process) =>
-                items.includes(allProcesses.find((item) => item._id == process)?.server || ""),
-              )
+              items.includes(allProcesses.find((item) => item._id == process)?.server || ""),
+            )
             : [],
       });
     } else if (type == "processes") {
@@ -54,8 +54,8 @@ export function SelectedProvider({ children, servers }: { children: React.ReactN
         processes:
           selectedItem.servers.length > 0
             ? items.filter((process) =>
-                selectedItem.servers.includes(allProcesses.find((item) => item._id == process)?.server || ""),
-              )
+              selectedItem.servers.includes(allProcesses.find((item) => item._id == process)?.server || ""),
+            )
             : items,
       });
     }
@@ -63,7 +63,8 @@ export function SelectedProvider({ children, servers }: { children: React.ReactN
 
   const hasPermission = (processId: string, serverId: string, permission?: keyof IPermissionConstants) => {
     const user = session?.user;
-    if (!user || !user.acl) return false;
+    // If no user (guest with PIN), allow viewing all
+    if (!user || !user.acl) return true;
     if (!user?.acl?.owner && !user?.acl?.admin) {
       const serverAccess = new Access(user.acl?.servers ?? []);
       if (permission) return serverAccess.getPerms(serverId, processId).has(PERMISSIONS[permission]);

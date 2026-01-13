@@ -6,31 +6,31 @@ export const permissionData = [
     icon: <IconHistory />,
     value: "LOGS",
     label: "Logs",
-    description: "View logs",
+    description: "Xem logs",
   },
   {
     icon: <IconChartBar />,
     value: "MONITORING",
     label: "Monitoring",
-    description: "View monitoring/stats",
+    description: "Xem giám sát/thống kê",
   },
   {
     icon: <IconReload />,
     value: "RESTART",
     label: "Restart",
-    description: "Restart process",
+    description: "Khởi động lại (Restart)",
   },
   {
     icon: <IconPower />,
     value: "STOP",
     label: "Stop",
-    description: "Stop process",
+    description: "Dừng (Stop)",
   },
   {
     icon: <IconTrash />,
     value: "DELETE",
     label: "Delete",
-    description: "Delete process",
+    description: "Xóa (Delete)",
   },
 ];
 

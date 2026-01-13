@@ -24,7 +24,7 @@ export default function ProcessMetricRow({ process, refetchInterval, showMetric 
   if (!showMetric) {
     return (
       <div className="flex items-center gap-3 text-slate-500 text-sm">
-        <span>Process not running</span>
+        <span>Process đang dừng</span>
       </div>
     );
   }

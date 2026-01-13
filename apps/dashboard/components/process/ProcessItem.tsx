@@ -1,4 +1,4 @@
-import { Transition } from "@mantine/core";
+import { Tooltip, Transition } from "@mantine/core";
 import { IProcess, ISetting } from "@pm2.web/typings";
 import { IconChevronDown } from "@tabler/icons-react";
 import { useState } from "react";
@@ -59,29 +59,37 @@ export default function ProcessItem({ process, setting }: ProcessItemProps) {
       <div className="p-4">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           {/* Left: Status & Name */}
-          <div className="flex items-center gap-3">
-            {/* Status Indicator */}
-            <div className="relative">
-              <div
-                className={`
-                  w-3 h-3 rounded-full ${statusStyles.dot}
-                  ${process.status === "online" ? "animate-pulse" : ""}
-                `}
-                style={{
-                  boxShadow: process.status === "online"
-                    ? "0 0 12px rgba(52, 211, 153, 0.5)"
-                    : undefined
-                }}
-              />
-            </div>
-
+          <div className="flex items-center gap-4">
             {/* Process Info */}
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-medium text-white">{process.name}</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${statusStyles.text} bg-slate-800/50 uppercase font-medium`}>
-                  {process.status}
+              <div className="flex items-center gap-3">
+                <span className="text-xl font-semibold text-white tracking-tight leading-none">
+                  {process.name}
                 </span>
+
+                {/* Compact Status Indicator "Button" */}
+                <Tooltip
+                  label={process.status === "online" ? "Đang chạy" : process.status === "stopped" ? "Đã dừng" : "Ngoại tuyến"}
+                  position="top"
+                  withArrow
+                >
+                  <div className={`
+                    px-2.5 py-1 rounded-md bg-slate-800/40 border transition-colors
+                    ${statusStyles.border} flex items-center justify-center
+                  `}>
+                    <div
+                      className={`
+                        w-2 h-2 rounded-full ${statusStyles.dot}
+                        ${process.status === "online" ? "animate-pulse" : ""}
+                      `}
+                      style={{
+                        boxShadow: process.status === "online"
+                          ? "0 0 10px rgba(52, 211, 153, 0.6)"
+                          : undefined
+                      }}
+                    />
+                  </div>
+                </Tooltip>
               </div>
               <div className="text-xs text-slate-500 font-mono mt-0.5">
                 {process.type} • PID: {process.pm_id ?? "N/A"}

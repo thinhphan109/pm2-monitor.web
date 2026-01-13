@@ -42,9 +42,9 @@ export default function UserManagement({ selection, setSelection, users, refresh
                     }}
                   />
                 </Table.Th>
-                <Table.Th className="text-slate-400 font-semibold uppercase tracking-wider text-[10px]">User</Table.Th>
+                <Table.Th className="text-slate-400 font-semibold uppercase tracking-wider text-[10px]">Người dùng</Table.Th>
                 <Table.Th className="text-slate-400 font-semibold uppercase tracking-wider text-[10px]">Email</Table.Th>
-                <Table.Th className="text-slate-400 font-semibold uppercase tracking-wider text-[10px]">Permission</Table.Th>
+                <Table.Th className="text-slate-400 font-semibold uppercase tracking-wider text-[10px]">Quyền hạn</Table.Th>
                 <Table.Th style={{ width: rem(50) }}></Table.Th>
               </Table.Tr>
             </Table.Thead>

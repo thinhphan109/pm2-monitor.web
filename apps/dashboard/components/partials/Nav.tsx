@@ -51,31 +51,32 @@ interface NavbarLinkProps {
 
 function NavbarLink({ icon: Icon, label, active, href, closeMobile }: NavbarLinkProps) {
   return (
-    <Tooltip label={label} position="right" transitionProps={{ duration: 150 }}>
+    <Tooltip label={label} position="right" transitionProps={{ duration: 150 }} className="hidden lg:block">
       <Link
         href={href || ""}
         onClick={closeMobile}
         className={`
-          flex items-center justify-center w-11 h-11 rounded-xl
+          flex items-center gap-3 w-full lg:w-11 h-11 px-3 lg:px-0 lg:justify-center rounded-xl
           transition-all duration-200 ease-out no-underline
           ${active
             ? "bg-indigo-500/20 text-indigo-400 shadow-lg shadow-indigo-500/10"
-            : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+            : "text-slate-300 hover:text-white hover:bg-slate-700/50"
           }
         `}
       >
         <Icon size={20} stroke={1.5} />
+        <span className="lg:hidden text-sm font-medium">{label}</span>
       </Link>
     </Tooltip>
   );
 }
 
 const navLinks = [
-  { icon: IconGauge, label: "Overview", href: "/" },
-  { icon: IconLayoutDashboard, label: "Process", href: "/" },
+  { icon: IconGauge, label: "Tổng quan", href: "/" },
+  { icon: IconLayoutDashboard, label: "Process", href: "/process" },
   {
     icon: IconUser,
-    label: "User Administration",
+    label: "Quản lý người dùng",
     href: "/user",
     onlyIf: (session: Session | null) => {
       if (session?.user) {
@@ -87,7 +88,7 @@ const navLinks = [
   },
   {
     icon: IconSettings,
-    label: "Settings",
+    label: "Cài đặt",
     href: "/settings",
     onlyIf: (session: Session | null) => !!session?.user,
   },
@@ -118,7 +119,7 @@ export function Nav({ closeMobile }: NavProps) {
     <AppShell.Navbar p="md" className="glass-sidebar">
       {/* Main Navigation Links */}
       <AppShell.Section grow mt="md">
-        <Stack align="center" gap="xs">
+        <Stack align="stretch" gap="xs" className="lg:items-center">
           {links}
         </Stack>
       </AppShell.Section>
@@ -127,7 +128,7 @@ export function Nav({ closeMobile }: NavProps) {
       <AppShell.Section>
         <Stack align="center" gap="xs">
           {/* Theme Toggle */}
-          <Tooltip label="Toggle Theme" position="right" transitionProps={{ duration: 150 }}>
+          <Tooltip label="Đổi giao diện" position="right" transitionProps={{ duration: 150 }}>
             <UnstyledButton
               onClick={() => toggleColorScheme()}
               className="flex items-center justify-center w-11 h-11 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-all duration-200"
@@ -140,12 +141,19 @@ export function Nav({ closeMobile }: NavProps) {
             </UnstyledButton>
           </Tooltip>
 
-          {/* Logout */}
-          {session && (
+          {/* Logout / Login */}
+          {session ? (
             <NavbarBtn
               icon={IconLogout}
-              label="Logout"
+              label="Đăng xuất"
               onClick={() => signOut()}
+            />
+          ) : (
+            <NavbarLink
+              icon={IconLogout}
+              label="Đăng nhập"
+              href="/login"
+              closeMobile={closeMobile}
             />
           )}
         </Stack>

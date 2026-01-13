@@ -44,7 +44,7 @@ export default function WorkerGrid({ servers }: WorkerGridProps) {
                                         <Group gap={6}>
                                             <div className={`w-1.5 h-1.5 rounded-full ${isOnline ? "bg-emerald-400" : "bg-rose-500 animate-pulse"}`} />
                                             <Text size="xs" className="text-slate-500 font-mono" suppressHydrationWarning>
-                                                {isOnline ? "ONLINE" : "OFFLINE"}
+                                                {isOnline ? "HOẠT ĐỘNG" : "NGOẠI TUYẾN"}
                                             </Text>
                                         </Group>
                                     </div>
@@ -93,7 +93,7 @@ export default function WorkerGrid({ servers }: WorkerGridProps) {
                                     Heartbeat
                                 </Text>
                                 <Text size="xs" fw={500} className="text-slate-400" suppressHydrationWarning>
-                                    Seen {ms(Math.max(0, Date.now() - new Date(server.heartbeat).getTime()))} ago
+                                    Lần cuối {ms(Math.max(0, Date.now() - new Date(server.heartbeat).getTime()))} trước
                                 </Text>
                             </Flex>
                         </Stack>

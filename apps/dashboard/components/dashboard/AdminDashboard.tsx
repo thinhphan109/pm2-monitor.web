@@ -122,7 +122,7 @@ export default function AdminDashboard({ settings }: AdminDashboardProps) {
                 <div className="glass-card p-4">
                     <div className="flex items-center gap-2 mb-3">
                         <IconCpu size={16} className="text-blue-400" />
-                        <span className="text-xs text-slate-400 uppercase tracking-wide">CPU Usage</span>
+                        <span className="text-xs text-slate-400 uppercase tracking-wide">Sử dụng CPU</span>
                     </div>
                     <AreaChart
                         {...areaChartProps}
@@ -146,7 +146,7 @@ export default function AdminDashboard({ settings }: AdminDashboardProps) {
                 <div className="glass-card p-4">
                     <div className="flex items-center gap-2 mb-3">
                         <IconDatabase size={16} className="text-indigo-400" />
-                        <span className="text-xs text-slate-400 uppercase tracking-wide">Memory Usage</span>
+                        <span className="text-xs text-slate-400 uppercase tracking-wide">Sử dụng RAM</span>
                     </div>
                     <AreaChart
                         {...areaChartProps}
@@ -170,13 +170,13 @@ export default function AdminDashboard({ settings }: AdminDashboardProps) {
                 <div className="glass-card p-4">
                     <div className="flex items-center gap-2 mb-4">
                         <IconClock size={16} className="text-violet-400" />
-                        <span className="text-xs text-slate-400 uppercase tracking-wide">Uptime</span>
+                        <span className="text-xs text-slate-400 uppercase tracking-wide">Thời gian hoạt động</span>
                     </div>
                     <div className="space-y-4">
                         <div>
                             <div className="flex items-center justify-between mb-1">
                                 <span className="text-xs text-slate-500">Server</span>
-                                <span className="text-xs text-emerald-400">Online</span>
+                                <span className="text-xs text-emerald-400">Hoạt động</span>
                             </div>
                             <div className="font-mono text-xl font-semibold text-white">
                                 {ms(data?.serverUptime || 0, { long: true })}
@@ -197,25 +197,24 @@ export default function AdminDashboard({ settings }: AdminDashboardProps) {
                 <div className="glass-card p-4">
                     <div className="flex items-center gap-2 mb-2">
                         <IconServer size={16} className="text-emerald-400" />
-                        <span className="text-xs text-slate-400 uppercase tracking-wide">Status</span>
+                        <span className="text-xs text-slate-400 uppercase tracking-wide">Trạng thái</span>
                     </div>
                     <div className="flex flex-col items-center">
-                        <DonutChart
-                            size={120}
-                            thickness={16}
-                            data={[
-                                { name: "Online", value: onlineCount || 0, color: "teal.5" },
-                                { name: "Stopped", value: stoppedCount || 0, color: "yellow.5" },
-                                { name: "Offline", value: offlineCount || 0, color: "red.5" },
-                            ]}
-                            startAngle={180}
-                            endAngle={0}
-                            chartLabel={totalCount > 0 ? `${Math.round((onlineCount / totalCount) * 100)}%` : "0%"}
-                            style={{ marginBottom: -40 }}
-                            classNames={{
-                                label: "text-white font-semibold text-lg",
-                            }}
-                        />
+                        <div className="[&_tspan]:fill-white [&_tspan]:text-lg [&_tspan]:font-semibold">
+                            <DonutChart
+                                size={120}
+                                thickness={16}
+                                data={[
+                                    { name: "Online", value: onlineCount || 0, color: "teal.5" },
+                                    { name: "Stopped", value: stoppedCount || 0, color: "yellow.5" },
+                                    { name: "Offline", value: offlineCount || 0, color: "red.5" },
+                                ]}
+                                startAngle={180}
+                                endAngle={0}
+                                chartLabel={totalCount > 0 ? `${Math.round((onlineCount / totalCount) * 100)}%` : "0%"}
+                                style={{ marginBottom: -40 }}
+                            />
+                        </div>
                         <div className="flex gap-4 mt-6">
                             <StatusLegend label="Online" count={onlineCount} color="emerald" />
                             <StatusLegend label="Stopped" count={stoppedCount} color="amber" />

@@ -14,15 +14,15 @@ export default function UpdatePassword() {
       confirmPassword: "",
     },
     validate: {
-      oldPassword: (val) => (val.length <= 6 ? "Password should include at least 6 characters" : null),
-      newPassword: (val) => (val.length <= 6 ? "Password should include at least 6 characters" : null),
-      confirmPassword: (val) => (val.length <= 6 ? "Password should include at least 6 characters" : null),
+      oldPassword: (val) => (val.length <= 6 ? "Mật khẩu phải có ít nhất 6 ký tự" : null),
+      newPassword: (val) => (val.length <= 6 ? "Mật khẩu phải có ít nhất 6 ký tự" : null),
+      confirmPassword: (val) => (val.length <= 6 ? "Mật khẩu phải có ít nhất 6 ký tự" : null),
     },
   });
 
   const changePassword = trpc.user.changePassword.useMutation({
     onSuccess(data) {
-      sendNotification("changePassword", "Success", data, "success");
+      sendNotification("changePassword", "Thành công", data, "success");
     },
     onError(error) {
       let errorMessage = error.message;
@@ -34,7 +34,7 @@ export default function UpdatePassword() {
         passwordForm.setFieldError("oldPassword", errorMessage);
       }
 
-      sendNotification("changePassword", "Failed", errorMessage, "error");
+      sendNotification("changePassword", "Thất bại", errorMessage, "error");
     },
   });
 
@@ -49,34 +49,34 @@ export default function UpdatePassword() {
           />
         }
       >
-        <Title order={5}>Update Password</Title>
+        <Title order={5}>Đổi mật khẩu</Title>
       </Accordion.Control>
       <Accordion.Panel px="xs">
         <form onSubmit={passwordForm.onSubmit((values) => changePassword.mutate(values))}>
           <Stack my={"xs"}>
             <TextInput
-              label="Old Password"
-              placeholder="Old Password"
+              label="Mật khẩu cũ"
+              placeholder="Nhập mật khẩu cũ"
               required
               type="password"
               {...passwordForm.getInputProps("oldPassword")}
             />
             <TextInput
-              label="New Password"
-              placeholder="New Password"
+              label="Mật khẩu mới"
+              placeholder="Nhập mật khẩu mới"
               required
               type="password"
               {...passwordForm.getInputProps("newPassword")}
             />
             <TextInput
-              label="Confirm Password"
-              placeholder="Confirm Password"
+              label="Xác nhận mật khẩu mới"
+              placeholder="Nhập lại mật khẩu mới"
               required
               type="password"
               {...passwordForm.getInputProps("confirmPassword")}
             />
             <Button type="submit" variant="light" color="blue">
-              Update Password
+              Cập nhật mật khẩu
             </Button>
           </Stack>
         </form>

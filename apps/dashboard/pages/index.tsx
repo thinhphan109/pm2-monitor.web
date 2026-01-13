@@ -20,7 +20,7 @@ export default function HomePage({ }: InferGetServerSidePropsType<typeof getServ
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="flex items-center gap-3">
           <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-          <span className="text-slate-400">Loading dashboard...</span>
+          <span className="text-slate-400">Đang tải dashboard...</span>
         </div>
       </div>
     );
@@ -31,7 +31,7 @@ export default function HomePage({ }: InferGetServerSidePropsType<typeof getServ
   return (
     <>
       <Head>
-        <title>PM2 Monitor - Dashboard</title>
+        <title>PM2 Monitor - Tổng quan</title>
         <meta name="description" content="PM2 Process Monitor Dashboard" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/png" href="/logo.png" />

@@ -8,11 +8,11 @@ import { trpc } from "@/utils/trpc";
 export default function UnlinkOAuth2() {
   const unlinkOAuth2 = trpc.user.unlinkOAuth2.useMutation({
     onSuccess(data) {
-      sendNotification("unlinkOAuth2", "Success", data, "success");
+      sendNotification("unlinkOAuth2", "Thành công", data, "success");
       signOut();
     },
     onError(error) {
-      sendNotification("unlinkOAuth2", "Failed", error.message, "error");
+      sendNotification("unlinkOAuth2", "Thất bại", error.message, "error");
     },
   });
 
@@ -27,12 +27,12 @@ export default function UnlinkOAuth2() {
           />
         }
       >
-        <Title order={5}>Unlink OAuth2</Title>
+        <Title order={5}>Hủy liên kết OAuth2</Title>
       </Accordion.Control>
       <Accordion.Panel px="xs">
         <Stack my={"xs"}>
           <Button type="submit" variant="light" color="orange" onClick={() => unlinkOAuth2.mutate()}>
-            Unlink OAuth2
+            Hủy liên kết OAuth2
           </Button>
         </Stack>
       </Accordion.Panel>

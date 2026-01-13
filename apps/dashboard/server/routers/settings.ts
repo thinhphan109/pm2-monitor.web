@@ -26,9 +26,9 @@ export const settingRouter = router({
           backend: z.number(),
         }),
         logRotation: z.number(),
-        registrationCode: z.string().length(6),
-        excludeDaemon: z.boolean(),
-        showcaseMode: z.boolean(),
+        registrationCode: z.string().max(6).optional().default(""),
+        excludeDaemon: z.boolean().optional().default(false),
+        showcaseMode: z.boolean().optional().default(true),
         processPin: z.string().optional(),
       }),
     )

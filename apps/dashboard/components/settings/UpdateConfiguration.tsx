@@ -41,26 +41,26 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
     },
     validate: {
       polling: (val) =>
-        val.backend < 1000 || val.frontend < 1000 ? "Update Interval can not be less than 1000ms" : null,
-      logRotation: (val) => (val >= 10_000 ? "Log rotation can not be more than 10,000" : null),
-      registrationCode: (val) => (val && val.length < 6 ? "Code should include at least 6 numbers" : null),
-      processPin: (val) => (val && val.length > 0 && val.length < 6 ? "PIN should be 6 digits or empty" : null),
+        val.backend < 1000 || val.frontend < 1000 ? "Thời gian cập nhật không được nhỏ hơn 1000ms" : null,
+      logRotation: (val) => (val >= 10_000 ? "Log rotation không được vượt quá 10,000" : null),
+      registrationCode: (val) => (val && val.length < 6 ? "Mã đăng ký phải có ít nhất 6 ký tự" : null),
+      processPin: (val) => (val && val.length > 0 && val.length < 6 ? "Mã PIN phải có 6 chữ số hoặc để trống" : null),
     },
   });
 
   const updateSetting = trpc.setting.updateSetting.useMutation({
     onSuccess(data) {
-      sendNotification("updateSetting", "Success", data, "success");
+      sendNotification("updateSetting", "Thành công", data, "success");
     },
     onError(error) {
-      sendNotification("updateSetting", "Failed", error.message, "error");
+      sendNotification("updateSetting", "Thất bại", error.message, "error");
     },
   });
 
   return (
     <Accordion.Item value="configuration" className="border-none bg-transparent">
       <Accordion.Control className="hover:bg-slate-800/30 rounded-lg">
-        <Title order={5} className="text-slate-200">Configuration</Title>
+        <Title order={5} className="text-slate-200">Cấu hình hệ thống</Title>
       </Accordion.Control>
       <Accordion.Panel px="xs" className="pt-4">
         <form onSubmit={globalConfiguration.onSubmit((values) => updateSetting.mutate(values))}>
@@ -68,8 +68,8 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
             <Grid.Col span={{ base: 12, md: 6 }}>
               <Stack gap="md">
                 <NumberInput
-                  label="Backend Update Interval"
-                  description="In milliseconds"
+                  label="Thời gian cập nhật Backend"
+                  description="Tính bằng mili giây (ms)"
                   placeholder="2000"
                   required
                   {...globalConfiguration.getInputProps("polling.backend")}
@@ -82,8 +82,8 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
                   }}
                 />
                 <NumberInput
-                  label="Frontend Update Interval"
-                  description="In milliseconds"
+                  label="Thời gian cập nhật Frontend"
+                  description="Tính bằng mili giây (ms)"
                   placeholder="1000"
                   required
                   {...globalConfiguration.getInputProps("polling.frontend")}
@@ -102,7 +102,7 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
               <Stack gap="md">
                 <NumberInput
                   label="Log Rotation"
-                  description="Automatically rotate logs to meet max length"
+                  description="Tự động xoay vòng log khi đạt giới hạn dòng"
                   placeholder="1000"
                   required
                   step={50}
@@ -115,8 +115,8 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
                 />
 
                 <Checkbox
-                  label="Exclude Daemon Process"
-                  description="Excludes processes named 'pm2.web-daemon'"
+                  label="Loại trừ Daemon Process"
+                  description="Không hiển thị các process có tên 'pm2.web-daemon'"
                   {...globalConfiguration.getInputProps("excludeDaemon", { type: "checkbox" })}
                   classNames={{
                     label: "text-slate-300 text-sm",
@@ -126,8 +126,8 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
                 />
 
                 <Checkbox
-                  label="Public Showcase Mode"
-                  description="Allow anyone to view the dashboard in read-only mode without logging in"
+                  label="Chế độ Public Showcase"
+                  description="Cho phép mọi người xem dashboard ở chế độ chỉ đọc mà không cần đăng nhập"
                   {...globalConfiguration.getInputProps("showcaseMode", { type: "checkbox" })}
                   classNames={{
                     label: "text-slate-300 text-sm",
@@ -137,8 +137,8 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
                 />
 
                 <Input.Wrapper
-                  label="Registration Code"
-                  description="PIN code required for new user registration"
+                  label="Mã đăng ký (Registration Code)"
+                  description="Mã PIN yêu cầu khi đăng ký tài khoản mới"
                   classNames={{
                     label: "text-slate-300 font-medium",
                     description: "text-slate-500 text-xs mb-2",
@@ -167,7 +167,7 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
 
                       <CopyButton value={globalConfiguration.values.registrationCode} timeout={2000}>
                         {({ copied, copy }) => (
-                          <Tooltip label={copied ? "Copied" : "Copy Code"} withArrow position="top">
+                          <Tooltip label={copied ? "Đã sao chép" : "Sao chép mã"} withArrow position="top">
                             <ActionIcon
                               variant="subtle"
                               className={copied ? "text-emerald-400" : "text-slate-400 hover:bg-slate-700/30"}
@@ -185,8 +185,8 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
                 </Input.Wrapper>
 
                 <Input.Wrapper
-                  label="Process Access PIN"
-                  description="PIN for guest access to /process page (leave empty to disable)"
+                  label="Mã PIN truy cập Process"
+                  description="Mã PIN để xem trang /process (để trống để tắt)"
                   classNames={{
                     label: "text-slate-300 font-medium",
                     description: "text-slate-500 text-xs mb-2",
@@ -223,7 +223,7 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
                         size="lg"
                         onClick={() => globalConfiguration.setFieldValue("processPin", "")}
                       >
-                        <Tooltip label="Clear PIN" withArrow position="top">
+                        <Tooltip label="Xóa PIN" withArrow position="top">
                           <span className="text-xs font-bold">✕</span>
                         </Tooltip>
                       </ActionIcon>
@@ -243,7 +243,7 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
               radius="md"
               size="md"
             >
-              Save Configuration
+              Lưu cấu hình
             </Button>
           </Flex>
         </form>

@@ -10,32 +10,32 @@ export default function DatabaseAction() {
       action: "",
     },
     validate: {
-      action: (val) => (val ? null : "Please select an action"),
+      action: (val) => (val ? null : "Vui lòng chọn một thao tác"),
     },
   });
 
   const deleteAll = trpc.setting.deleteAll.useMutation({
     onSuccess(data) {
-      sendNotification("deleteAll", "Success", data, "success");
+      sendNotification("deleteAll", "Thành công", data, "success");
     },
     onError(error) {
-      sendNotification("deleteAll", "Deleting all failed", error.message, "error");
+      sendNotification("deleteAll", "Thất bại", error.message, "error");
     },
   });
 
   const deleteLogs = trpc.setting.deleteLogs.useMutation({
     onSuccess(data) {
-      sendNotification("deleteLogs", "Success", data, "success");
+      sendNotification("deleteLogs", "Thành công", data, "success");
     },
     onError(error) {
-      sendNotification("deleteLogs", "Deleting logs failed", error.message, "error");
+      sendNotification("deleteLogs", "Thất bại", error.message, "error");
     },
   });
 
   return (
     <Accordion.Item value="database_action">
       <Accordion.Control>
-        <Title order={5}>Database Management</Title>
+        <Title order={5}>Quản trị Database</Title>
       </Accordion.Control>
       <Accordion.Panel px="xs">
         <form
@@ -54,15 +54,15 @@ export default function DatabaseAction() {
         >
           <Flex align={"end"} gap={"lg"}>
             <Select
-              label="Database Action"
-              placeholder="Select Action"
+              label="Thao tác Database"
+              placeholder="Chọn thao tác"
               data={[
                 {
-                  label: "Delete Database Server/Process",
+                  label: "Xóa toàn bộ Server/Process",
                   value: "deleteAll",
                 },
                 {
-                  label: "Delete Logs of Process",
+                  label: "Xóa toàn bộ Logs của Process",
                   value: "deleteLogs",
                 },
               ]}
@@ -73,7 +73,7 @@ export default function DatabaseAction() {
               {...databaseAction.getInputProps("action")}
             />
             <Button type="submit" variant="light" color="orange" loading={deleteAll.isPending || deleteLogs.isPending}>
-              Run
+              Thực thi
             </Button>
           </Flex>
         </form>

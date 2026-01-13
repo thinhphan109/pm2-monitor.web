@@ -34,26 +34,26 @@ export default function UserItem({
 
   const deleteUser = trpc.user.deleteUser.useMutation({
     onMutate({ userId }) {
-      actionNotification(userId, `Deleting user: ${name}`, `Please Wait ...`, "pending");
+      actionNotification(userId, `Đang xóa người dùng: ${name}`, `Vui lòng đợi...`, "pending");
     },
     onError(error) {
-      actionNotification(userId, `Failed to delete user: ${name}`, error.message, "error");
+      actionNotification(userId, `Xóa người dùng thất bại: ${name}`, error.message, "error");
     },
     onSuccess(data) {
-      actionNotification(userId, `Deleted User: ${name}`, data, "success");
+      actionNotification(userId, `Đã xóa người dùng: ${name}`, data, "success");
       refresh();
     },
   });
 
   const updateUser = trpc.user.updateRole.useMutation({
     onMutate({ userId, role }) {
-      actionNotification(userId, `Updating role to ${capitalizeFirst(role)}`, `Please Wait ...`, "pending");
+      actionNotification(userId, `Đang cập nhật quyền thành ${capitalizeFirst(role)}`, `Vui lòng đợi...`, "pending");
     },
     onError(error, { role }) {
-      actionNotification(userId, `Failed to update role to ${capitalizeFirst(role)}`, error.message, "error");
+      actionNotification(userId, `Cập nhật quyền thành ${capitalizeFirst(role)} thất bại`, error.message, "error");
     },
     onSuccess(data, { role }) {
-      actionNotification(userId, `Updated role to ${capitalizeFirst(role)}`, data, "success");
+      actionNotification(userId, `Đã cập nhật quyền thành ${capitalizeFirst(role)}`, data, "success");
       refresh();
     },
   });

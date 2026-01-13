@@ -14,7 +14,7 @@ export function Dashboard({ children }: { children: ReactNode }) {
       <AppShell
         header={{ height: { base: 56, md: 64 } }}
         navbar={{
-          width: { base: 280, lg: 72 },
+          width: { base: 240, lg: 72 },
           breakpoint: "lg",
           collapsed: { mobile: !mobileOpened },
         }}
@@ -28,16 +28,20 @@ export function Dashboard({ children }: { children: ReactNode }) {
             minHeight: "calc(100vh - var(--app-shell-header-height, 0px))",
           },
           navbar: {
-            backgroundColor: "rgba(15, 23, 42, 0.6)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
+            backgroundColor: "rgba(15, 23, 42, 0.98)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
             borderRight: "1px solid rgba(51, 65, 85, 0.5)",
+            zIndex: 200,
+            top: "var(--app-shell-header-height, 56px)",
+            height: "calc(100vh - var(--app-shell-header-height, 56px))",
           },
           header: {
-            backgroundColor: "rgba(15, 23, 42, 0.7)",
+            backgroundColor: "rgba(15, 23, 42, 0.95)",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
             borderBottom: "1px solid rgba(51, 65, 85, 0.5)",
+            zIndex: 201,
           },
         }}
       >

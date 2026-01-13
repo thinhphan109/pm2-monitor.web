@@ -148,6 +148,39 @@ export const userRouter = router({
 
     return "Updated permissions successfully";
   }),
+  createUser: adminProcedure
+    .input(
+      z.object({
+        email: z.string().email(),
+        name: z.string().min(1),
+        password: z.string().min(6),
+        role: z.enum(["ADMIN", "CUSTOM", "NONE"]).default("NONE"),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { email, name, password, role } = input;
+
+      // Check if user already exists
+      const existingUser = await userModel.findOne({ email });
+      if (existingUser) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "User with this email already exists" });
+      }
+
+      // Create new user
+      const newUser = new userModel({
+        email,
+        name,
+        password,
+        acl: {
+          owner: false,
+          admin: role === "ADMIN",
+          servers: [],
+        },
+      });
+
+      await newUser.save();
+      return `User "${name}" created successfully`;
+    }),
   getUsers: adminProcedure.query(async () => {
     const users = await userModel
       .find(
