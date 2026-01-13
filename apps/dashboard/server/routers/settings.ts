@@ -28,6 +28,7 @@ export const settingRouter = router({
         logRotation: z.number(),
         registrationCode: z.string().length(6),
         excludeDaemon: z.boolean(),
+        showcaseMode: z.boolean(),
       }),
     )
     .mutation(async ({ input }) => {
@@ -43,6 +44,7 @@ export const settingRouter = router({
       setting.logRotation = input.logRotation;
       setting.registrationCode = input.registrationCode;
       setting.excludeDaemon = input.excludeDaemon;
+      setting.showcaseMode = input.showcaseMode;
 
       await setting.save();
       return "Configuration updated successfully";

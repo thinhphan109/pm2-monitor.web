@@ -152,22 +152,26 @@ export function Head({ mobileOpened, toggleMobile }: HeadProps) {
         </Group>
 
         {/* Center: Desktop Filter Selects */}
-        <Group gap="sm" className="hidden lg:flex">
-          {MultiSelectItems}
-        </Group>
+        {session?.user && (
+          <Group gap="sm" className="hidden lg:flex">
+            {MultiSelectItems}
+          </Group>
+        )}
 
         {/* Right: Mobile Filter Button */}
-        <Group gap="xs" className="lg:hidden">
-          <ActionIcon
-            variant="subtle"
-            radius="lg"
-            size="lg"
-            onClick={openFilter}
-            className="text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
-          >
-            <IconFilterCog size={20} />
-          </ActionIcon>
-        </Group>
+        {session?.user && (
+          <Group gap="xs" className="lg:hidden">
+            <ActionIcon
+              variant="subtle"
+              radius="lg"
+              size="lg"
+              onClick={openFilter}
+              className="text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+            >
+              <IconFilterCog size={20} />
+            </ActionIcon>
+          </Group>
+        )}
 
         {/* Right: Empty space for desktop alignment */}
         <div className="hidden lg:block w-8" />

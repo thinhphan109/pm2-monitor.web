@@ -1,5 +1,6 @@
-import { userModel } from "@pm2.web/mongoose-models";
+import { settingModel, userModel } from "@pm2.web/mongoose-models";
 import { initTRPC, TRPCError } from "@trpc/server";
+import mongoose from "mongoose";
 import superjson from "superjson";
 
 import { createTRPCContext } from "./context";
@@ -20,8 +21,44 @@ export const publicProcedure = t.procedure;
  * Reusable middleware that enforces users are logged in before running the
  * procedure
  */
-const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
+const enforceUserIsAuthed = t.middleware(async ({ ctx, next, path }) => {
+  const settings = await settingModel.findOne({}).lean();
+  // Default to true if not found to support the user's "status-first" requirement
+  const isShowcaseMode = settings ? settings.showcaseMode : true;
+
+  // Safe procedures that can be accessed in showcase mode
+  const safePaths = [
+    "server.getDashBoardData",
+    "server.getStats",
+    "server.getLogs",
+    "server.getUptimeHistory",
+    "server.getRecentIncidents",
+    "process.getStat",
+    "process.getStats",
+    "process.getLogs",
+  ];
+
   if (!ctx.session || !ctx.session.user) {
+    if (isShowcaseMode && safePaths.includes(path)) {
+      // Provide a dummy "Read-Only" user for showcase mode
+      return next({
+        ctx: {
+          session: null,
+          user: {
+            _id: new mongoose.Types.ObjectId(),
+            name: "Showcase Guest",
+            email: "guest@showcase.local",
+            acl: {
+              admin: false,
+              owner: false,
+              servers: [], // No specific server permissions, logic handles this
+            },
+          } as any,
+        },
+      });
+    }
+
+    console.log(`[TRPC] Unauthorized access attempt to path: ${path} (Showcase: ${isShowcaseMode})`);
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
 
@@ -30,7 +67,6 @@ const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
 
   return next({
     ctx: {
-      // infers the `session` as non-nullable
       user: user,
       session: { ...ctx.session, user: ctx.session.user },
     },

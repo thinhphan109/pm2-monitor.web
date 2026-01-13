@@ -1,4 +1,4 @@
-import { AppShell, Stack, Tooltip, UnstyledButton , useMantineColorScheme } from "@mantine/core";
+import { AppShell, Stack, Tooltip, UnstyledButton, useMantineColorScheme } from "@mantine/core";
 import {
   IconGauge,
   IconLayoutDashboard,
@@ -72,20 +72,25 @@ function NavbarLink({ icon: Icon, label, active, href, closeMobile }: NavbarLink
 
 const navLinks = [
   { icon: IconGauge, label: "Overview", href: "/" },
-  { icon: IconLayoutDashboard, label: "Process", href: "/process" },
+  { icon: IconLayoutDashboard, label: "Process", href: "/" },
   {
     icon: IconUser,
     label: "User Administration",
     href: "/user",
     onlyIf: (session: Session | null) => {
       if (session?.user) {
-        const acl = session?.user.acl;
+        const acl = session?.user.acl as any;
         return acl?.admin || acl?.owner;
       }
       return false;
     },
   },
-  { icon: IconSettings, label: "Settings", href: "/settings" },
+  {
+    icon: IconSettings,
+    label: "Settings",
+    href: "/settings",
+    onlyIf: (session: Session | null) => !!session?.user,
+  },
 ];
 
 interface NavProps {
@@ -136,11 +141,13 @@ export function Nav({ closeMobile }: NavProps) {
           </Tooltip>
 
           {/* Logout */}
-          <NavbarBtn
-            icon={IconLogout}
-            label="Logout"
-            onClick={() => signOut()}
-          />
+          {session && (
+            <NavbarBtn
+              icon={IconLogout}
+              label="Logout"
+              onClick={() => signOut()}
+            />
+          )}
         </Stack>
       </AppShell.Section>
     </AppShell.Navbar>

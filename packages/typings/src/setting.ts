@@ -7,6 +7,7 @@ type ISetting = {
   logRotation: number;
   logRetention: number;
   excludeDaemon: boolean;
+  showcaseMode: boolean;
   registrationCode: string;
   createdAt: string;
   updatedAt: string;

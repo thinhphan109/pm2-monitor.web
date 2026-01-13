@@ -36,6 +36,7 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
       excludeDaemon: settings.excludeDaemon,
       logRotation: settings.logRotation,
       registrationCode: settings.registrationCode,
+      showcaseMode: settings.showcaseMode,
     },
     validate: {
       polling: (val) =>
@@ -115,6 +116,17 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
                   label="Exclude Daemon Process"
                   description="Excludes processes named 'pm2.web-daemon'"
                   {...globalConfiguration.getInputProps("excludeDaemon", { type: "checkbox" })}
+                  classNames={{
+                    label: "text-slate-300 text-sm",
+                    description: "text-slate-500 text-xs",
+                    input: "bg-slate-800/50 border-slate-700/50 checked:bg-indigo-500",
+                  }}
+                />
+
+                <Checkbox
+                  label="Public Showcase Mode"
+                  description="Allow anyone to view the dashboard in read-only mode without logging in"
+                  {...globalConfiguration.getInputProps("showcaseMode", { type: "checkbox" })}
                   classNames={{
                     label: "text-slate-300 text-sm",
                     description: "text-slate-500 text-xs",

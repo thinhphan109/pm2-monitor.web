@@ -1,5 +1,6 @@
 import { Tooltip } from "@mantine/core";
 import { IconPlayerStop, IconRefresh, IconTrash } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 
 import { sendNotification } from "@/utils/notification";
 import { trpc } from "@/utils/trpc";
@@ -9,6 +10,7 @@ interface ProcessActionProps {
 }
 
 export default function ProcessAction({ processId }: ProcessActionProps) {
+  const { data: session } = useSession();
   const processAction = trpc.process.action.useMutation({
     onSuccess(data, variables) {
       if (!data) {
@@ -33,7 +35,7 @@ export default function ProcessAction({ processId }: ProcessActionProps) {
     hoverClass
   }: {
     action: "RESTART" | "STOP" | "DELETE";
-    icon: typeof IconRefresh;
+    icon: any;
     label: string;
     colorClass: string;
     hoverClass: string;
@@ -58,6 +60,8 @@ export default function ProcessAction({ processId }: ProcessActionProps) {
       </button>
     </Tooltip>
   );
+
+  if (!session) return null;
 
   return (
     <div className="flex items-center gap-1.5">

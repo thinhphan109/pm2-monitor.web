@@ -19,6 +19,10 @@ const settingSchema = new mongoose.Schema(
     logRetention: Number,
     excludeDaemon: Boolean,
     registrationCode: String,
+    showcaseMode: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true },
 );

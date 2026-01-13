@@ -119,6 +119,7 @@ export const processRouter = router({
 const checkPermission = (process: IProcess | null, user: IUser, requiredPerms: number[]) => {
   if (!process) throw new TRPCError({ code: "BAD_REQUEST", message: "Process not found" });
   if (user.acl.admin || user.acl.owner) return;
+  if (user.name === "Showcase Guest") return; // Allow read-only for guest
   const userPerms = new Access(user?.acl?.servers || []).getPerms(process.server.toString(), process._id.toString());
   if (!userPerms.has(...requiredPerms)) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Insufficient Permissions" });
