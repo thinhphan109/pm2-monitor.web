@@ -47,6 +47,7 @@ const getProcessInfo = async (): Promise<IProcessInfo[]> => {
           unstaged: item.pm2_env?.versioning?.unstaged ?? true,
         },
         status: item?.pm2_env?.status || "offline",
+        pm_restarts: item?.pm2_env?.restart_time || 0,
         type: PROCESS_TYPES.includes(interpreter as IProcessType)
           ? interpreter
           : "other",

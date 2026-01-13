@@ -7,7 +7,7 @@ interface ILog {
   _id: string;
 }
 
-const PROCESS_TYPES = <const> [
+const PROCESS_TYPES = <const>[
   "node",
   "python",
   "ruby",
@@ -46,6 +46,7 @@ interface IProcess {
     branch?: string;
     unstaged?: boolean;
   };
+  pm_restarts: number;
   toggleCount: number;
   restartCount: number;
   deleteCount: number;

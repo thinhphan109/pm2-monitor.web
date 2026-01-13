@@ -48,6 +48,7 @@ export default async function updateData(
       await processModel.updateOne(processQuery, {
         name: process.name,
         status: process.status,
+        pm_restarts: process.pm_restarts,
         versioning: process.versioning,
         $push: {
           logs: {
@@ -65,6 +66,7 @@ export default async function updateData(
         type: process.type,
         logs: logs,
         status: process.status,
+        pm_restarts: process.pm_restarts,
         versioning: process.versioning,
         restartCount: 0,
         deleteCount: 0,

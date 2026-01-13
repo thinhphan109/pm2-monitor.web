@@ -18,6 +18,7 @@ interface IProcessInfo {
     unstaged?: boolean;
   };
   status: IProcessStatus;
+  pm_restarts: number;
   type: string;
 }
 

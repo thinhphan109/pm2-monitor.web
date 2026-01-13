@@ -1,5 +1,5 @@
 import { IProcess } from "@pm2.web/typings";
-import { IconClock, IconCpu, IconDatabase } from "@tabler/icons-react";
+import { IconClock, IconCpu, IconDatabase, IconRefresh } from "@tabler/icons-react";
 import ms from "ms";
 
 import { formatBytes } from "@/utils/format";
@@ -57,6 +57,14 @@ export default function ProcessMetricRow({ process, refetchInterval, showMetric 
         <IconClock size={14} className="text-emerald-400" />
         <span className="font-mono text-xs text-slate-200">
           {ms(getStat.data?.uptime || 0)}
+        </span>
+      </div>
+
+      {/* Restarts */}
+      <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50">
+        <IconRefresh size={14} className="text-amber-400" />
+        <span className="font-mono text-xs text-slate-200">
+          {process.pm_restarts || 0}
         </span>
       </div>
     </div>

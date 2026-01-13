@@ -84,6 +84,7 @@ const processSchema = new mongoose.Schema(
         default: true,
       },
     },
+    pm_restarts: Number,
     restartCount: Number,
     toggleCount: Number,
     deleteCount: Number,
