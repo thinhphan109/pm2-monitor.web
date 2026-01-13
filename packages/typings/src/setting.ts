@@ -9,6 +9,7 @@ type ISetting = {
   excludeDaemon: boolean;
   showcaseMode: boolean;
   registrationCode: string;
+  processPin?: string; // PIN for guest access to /process page
   createdAt: string;
   updatedAt: string;
 };

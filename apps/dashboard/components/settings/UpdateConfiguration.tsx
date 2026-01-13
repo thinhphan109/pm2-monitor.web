@@ -37,12 +37,14 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
       logRotation: settings.logRotation,
       registrationCode: settings.registrationCode,
       showcaseMode: settings.showcaseMode,
+      processPin: (settings as any).processPin || "",
     },
     validate: {
       polling: (val) =>
         val.backend < 1000 || val.frontend < 1000 ? "Update Interval can not be less than 1000ms" : null,
       logRotation: (val) => (val >= 10_000 ? "Log rotation can not be more than 10,000" : null),
       registrationCode: (val) => (val && val.length < 6 ? "Code should include at least 6 numbers" : null),
+      processPin: (val) => (val && val.length > 0 && val.length < 6 ? "PIN should be 6 digits or empty" : null),
     },
   });
 
@@ -178,6 +180,53 @@ export default function UpdateConfiguration({ settings }: UpdateConfigurationPro
                           </Tooltip>
                         )}
                       </CopyButton>
+                    </Group>
+                  </Flex>
+                </Input.Wrapper>
+
+                <Input.Wrapper
+                  label="Process Access PIN"
+                  description="PIN for guest access to /process page (leave empty to disable)"
+                  classNames={{
+                    label: "text-slate-300 font-medium",
+                    description: "text-slate-500 text-xs mb-2",
+                  }}
+                >
+                  <Flex align="center" gap="sm" wrap="wrap" mt={4}>
+                    <PinInput
+                      length={6}
+                      type="number"
+                      mask
+                      {...globalConfiguration.getInputProps("processPin")}
+                      classNames={{
+                        input: "bg-slate-800/50 border-slate-700/50 text-slate-200 focus:border-indigo-500/50 w-10",
+                      }}
+                    />
+
+                    <Group gap="xs">
+                      <ActionIcon
+                        type="button"
+                        variant="subtle"
+                        className="text-indigo-400 hover:bg-indigo-500/10"
+                        radius="md"
+                        size="lg"
+                        onClick={() => globalConfiguration.setFieldValue("processPin", randomId().slice(8, 14).replace(/\D/g, '').padStart(6, '0').slice(0, 6))}
+                      >
+                        <IconRefresh size={20} />
+                      </ActionIcon>
+
+                      <ActionIcon
+                        type="button"
+                        variant="subtle"
+                        className="text-rose-400 hover:bg-rose-500/10"
+                        radius="md"
+                        size="lg"
+                        onClick={() => globalConfiguration.setFieldValue("processPin", "")}
+                      >
+                        <Tooltip label="Clear PIN" withArrow position="top">
+                          <span className="text-xs font-bold">✕</span>
+                        </Tooltip>
+                      </ActionIcon>
                     </Group>
                   </Flex>
                 </Input.Wrapper>

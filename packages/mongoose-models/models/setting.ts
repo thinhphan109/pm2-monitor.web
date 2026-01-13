@@ -23,6 +23,10 @@ const settingSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    processPin: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true },
 );

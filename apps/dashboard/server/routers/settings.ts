@@ -29,6 +29,7 @@ export const settingRouter = router({
         registrationCode: z.string().length(6),
         excludeDaemon: z.boolean(),
         showcaseMode: z.boolean(),
+        processPin: z.string().optional(),
       }),
     )
     .mutation(async ({ input }) => {
@@ -45,6 +46,9 @@ export const settingRouter = router({
       setting.registrationCode = input.registrationCode;
       setting.excludeDaemon = input.excludeDaemon;
       setting.showcaseMode = input.showcaseMode;
+      if (input.processPin !== undefined) {
+        (setting as any).processPin = input.processPin;
+      }
 
       await setting.save();
       return "Configuration updated successfully";
@@ -57,6 +61,26 @@ export const settingRouter = router({
     const settings = await fetchSettings();
     return !!settings?.registrationCode;
   }),
+  // Check if processPin is configured (for showing/hiding PIN modal)
+  hasProcessPin: publicProcedure.query(async () => {
+    const settings = await fetchSettings();
+    return !!(settings as any)?.processPin;
+  }),
+  // Verify PIN for guest access to /process
+  verifyProcessPin: publicProcedure
+    .input(z.object({ pin: z.string() }))
+    .mutation(async ({ input }) => {
+      const settings = await fetchSettings();
+      const storedPin = (settings as any)?.processPin || "";
+      if (!storedPin) {
+        // No PIN configured, allow access
+        return { success: true, message: "No PIN required" };
+      }
+      if (input.pin === storedPin) {
+        return { success: true, message: "PIN verified" };
+      }
+      return { success: false, message: "Invalid PIN" };
+    }),
 });
 
 export type SettingRouter = typeof settingRouter;

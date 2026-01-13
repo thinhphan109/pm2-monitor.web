@@ -2,11 +2,14 @@ import { Flex } from "@mantine/core";
 import { ISetting } from "@pm2.web/typings";
 import { IconLayoutDashboard } from "@tabler/icons-react";
 import { InferGetServerSidePropsType } from "next";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
 import { SelectedProvider, useSelected } from "@/components/context/SelectedProvider";
 import { Dashboard } from "@/components/layouts/Dashboard";
 import ProcessItem from "@/components/process/ProcessItem";
+import PinModal from "@/components/process/PinModal";
 import { getServerSideHelpers } from "@/server/helpers";
 import { trpc } from "@/utils/trpc";
 
@@ -57,6 +60,12 @@ function Process({ settings }: { settings: ISetting }) {
 }
 
 export default function ProcessPage({ }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { status } = useSession();
+  const [pinVerified, setPinVerified] = useState(false);
+  const [showPinModal, setShowPinModal] = useState(false);
+
+  const { data: hasPin } = trpc.setting.hasProcessPin.useQuery();
+
   const dashboardQuery = trpc.server.getDashBoardData.useQuery(undefined, {
     refetchInterval: (query) => {
       const data = query.state.data;
@@ -64,7 +73,42 @@ export default function ProcessPage({ }: InferGetServerSidePropsType<typeof getS
       return Math.min(Math.max(polling, 4000), 10_000);
     },
   });
-  const data = dashboardQuery.data!;
+
+  // Check session storage for PIN access
+  useEffect(() => {
+    if (status === "authenticated") {
+      setPinVerified(true);
+      return;
+    }
+
+    const stored = sessionStorage.getItem("processPinAccess");
+    if (stored) {
+      try {
+        const { expiry } = JSON.parse(stored);
+        if (Date.now() < expiry) {
+          setPinVerified(true);
+          return;
+        } else {
+          sessionStorage.removeItem("processPinAccess");
+        }
+      } catch {
+        sessionStorage.removeItem("processPinAccess");
+      }
+    }
+
+    // Show PIN modal if PIN is configured and user is not authenticated
+    if (hasPin && status === "unauthenticated") {
+      setShowPinModal(true);
+    } else if (hasPin === false) {
+      // No PIN configured, allow access
+      setPinVerified(true);
+    }
+  }, [status, hasPin]);
+
+  const handlePinSuccess = () => {
+    setPinVerified(true);
+    setShowPinModal(false);
+  };
 
   if (dashboardQuery.status !== "success") {
     return (
@@ -74,6 +118,25 @@ export default function ProcessPage({ }: InferGetServerSidePropsType<typeof getS
           <span className="text-slate-400">Loading processes...</span>
         </div>
       </div>
+    );
+  }
+
+  const data = dashboardQuery.data;
+
+  // Show PIN modal if not verified
+  if (!pinVerified && hasPin) {
+    return (
+      <>
+        <Head>
+          <title>PM2 Monitor - Processes</title>
+          <meta name="description" content="PM2 Process Management" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="icon" type="image/png" href="/logo.png" />
+        </Head>
+        <div className="min-h-screen bg-bg-primary">
+          <PinModal opened={showPinModal} onSuccess={handlePinSuccess} />
+        </div>
+      </>
     );
   }
 
