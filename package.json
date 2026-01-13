@@ -1,0 +1,49 @@
+{
+  "name": "pm2.web",
+  "version": "1.5.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oxdev03/pm2.web"
+  },
+  "engines": {
+    "node": ">= 18.0.0"
+  },
+  "author": {
+    "name": "oxdev03"
+  },
+  "license": "GPL-3.0-only",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "description": "pm2.web is a web-based application designed to monitor and manage processes running on your server using the PM2 process manager",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "format": "turbo run format",
+    "format:check": "turbo run format:check",
+    "start": "turbo run start",
+    "test": "turbo run test",
+    "graph": "turbo run build --graph",
+    "build:apps": "turbo run build --filter=./apps/*",
+    "build:packages": "turbo run build --filter=./packages/*",
+    "build:apps:dashboard": "turbo run build --filter=dashboard",
+    "build:apps:backend": "turbo run build --filter=backend",
+    "dev:apps:dashboard": "turbo run dev --filter=dashboard",
+    "dev:turbo:apps:dashboard": "turbo run dev:turbo --filter=dashboard",
+    "dev:apps:backend": "turbo run dev --filter=backend",
+    "start:apps:dashboard": "turbo run start --filter=dashboard",
+    "start:apps:backend": "turbo run start --filter=backend",
+    "test:apps:dashboard": "turbo run test --filter=dashboard"
+  },
+  "devDependencies": {
+    "@pm2.web/eslint-config": "*",
+    "@pm2.web/typescript-config": "*",
+    "prettier": "^3.3.3",
+    "turbo": "^2.1.2"
+  },
+  "packageManager": "npm@10.8.2"
+}

@@ -1,0 +1,347 @@
+/* ========================================
+   PM2 Monitor - Dark Glassmorphism Theme
+   Mobile-First Design System
+======================================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ----------------------------------------
+   CSS Custom Properties (Design Tokens)
+---------------------------------------- */
+:root {
+  /* Core Colors */
+  --bg-primary: #020617;
+  --bg-secondary: #0f172a;
+  --bg-tertiary: #1e293b;
+
+  /* Glass Effects */
+  --glass-bg: rgba(15, 23, 42, 0.5);
+  --glass-bg-light: rgba(15, 23, 42, 0.3);
+  --glass-bg-heavy: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(51, 65, 85, 0.5);
+  --glass-border-hover: rgba(71, 85, 105, 0.6);
+
+  /* Accent Colors */
+  --accent-primary: #818cf8;
+  --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+
+  /* Status Colors */
+  --status-online: #34d399;
+  --status-online-bg: rgba(52, 211, 153, 0.1);
+  --status-online-border: rgba(52, 211, 153, 0.2);
+
+  --status-error: #f43f5e;
+  --status-error-bg: rgba(244, 63, 94, 0.1);
+  --status-error-border: rgba(244, 63, 94, 0.2);
+
+  --status-warning: #fbbf24;
+  --status-warning-bg: rgba(251, 191, 36, 0.1);
+  --status-warning-border: rgba(251, 191, 36, 0.2);
+
+  --status-info: #60a5fa;
+  --status-info-bg: rgba(96, 165, 250, 0.1);
+  --status-info-border: rgba(96, 165, 250, 0.2);
+
+  /* Text Colors */
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Shadows */
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --shadow-glow-primary: 0 0 20px rgba(99, 102, 241, 0.3);
+
+  /* Sidebar */
+  --sidebar-width: 18rem;
+  --sidebar-width-collapsed: 4.5rem;
+  --header-height: 4rem;
+}
+
+/* ----------------------------------------
+   Base Styles
+---------------------------------------- */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+  }
+
+  /* Monospace for data elements */
+  code,
+  pre,
+  .font-mono {
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  }
+}
+
+/* ----------------------------------------
+   Custom Scrollbar
+---------------------------------------- */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* ----------------------------------------
+   Glass Components
+---------------------------------------- */
+@layer components {
+
+  /* Glass Card */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+  }
+
+  .glass-card:hover {
+    border-color: var(--glass-border-hover);
+  }
+
+  .glass-card-light {
+    background: var(--glass-bg-light);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+  }
+
+  /* Glass Sidebar */
+  .glass-sidebar {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-right: 1px solid var(--glass-border);
+  }
+
+  /* Glass Header */
+  .glass-header {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  /* Terminal Background */
+  .terminal-bg {
+    background-color: #0c0e14;
+    border: 1px solid rgba(51, 65, 85, 0.5);
+    border-radius: 0.75rem;
+  }
+}
+
+/* ----------------------------------------
+   Button Styles
+---------------------------------------- */
+@layer components {
+  .btn-primary {
+    background: var(--accent-gradient);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    filter: brightness(1.1);
+    box-shadow: var(--shadow-glow-primary);
+  }
+
+  .btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(51, 65, 85, 0.5);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-color: rgba(71, 85, 105, 0.6);
+  }
+
+  .btn-icon {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ----------------------------------------
+   Status Indicators
+---------------------------------------- */
+@layer components {
+  .status-online {
+    color: var(--status-online);
+    background: var(--status-online-bg);
+    border: 1px solid var(--status-online-border);
+  }
+
+  .status-error {
+    color: var(--status-error);
+    background: var(--status-error-bg);
+    border: 1px solid var(--status-error-border);
+  }
+
+  .status-warning {
+    color: var(--status-warning);
+    background: var(--status-warning-bg);
+    border: 1px solid var(--status-warning-border);
+  }
+
+  .status-info {
+    color: var(--status-info);
+    background: var(--status-info-bg);
+    border: 1px solid var(--status-info-border);
+  }
+
+  .status-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+  }
+
+  .status-dot-online {
+    background-color: var(--status-online);
+    box-shadow: 0 0 8px var(--status-online);
+  }
+
+  .status-dot-error {
+    background-color: var(--status-error);
+  }
+
+  .status-dot-warning {
+    background-color: var(--status-warning);
+  }
+}
+
+/* ----------------------------------------
+   Utility Classes
+---------------------------------------- */
+@layer utilities {
+  .bg-primary {
+    background-color: var(--bg-primary);
+  }
+
+  .bg-secondary {
+    background-color: var(--bg-secondary);
+  }
+
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+}
+
+/* ----------------------------------------
+   Mantine Overrides
+---------------------------------------- */
+.mantine-AppShell-main {
+  background-color: var(--bg-primary) !important;
+}
+
+.mantine-Paper-root {
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.mantine-Modal-content {
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--glass-border);
+}
+
+.mantine-Modal-header {
+  background-color: transparent !important;
+}
+
+.mantine-Modal-overlay {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(4px);
+}
+
+.mantine-Tooltip-tooltip {
+  background-color: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--glass-border);
+}
+
+.mantine-Input-input,
+.mantine-TextInput-input,
+.mantine-PasswordInput-input,
+.mantine-Select-input {
+  background-color: rgba(15, 23, 42, 0.5) !important;
+  border-color: rgba(51, 65, 85, 0.5) !important;
+  color: var(--text-primary) !important;
+}
+
+.mantine-Input-input:focus,
+.mantine-TextInput-input:focus,
+.mantine-PasswordInput-input:focus {
+  border-color: var(--accent-primary) !important;
+}
+
+.mantine-Accordion-item {
+  background-color: rgba(15, 23, 42, 0.3) !important;
+  border-color: var(--glass-border) !important;
+}
+
+.mantine-Accordion-control:hover {
+  background-color: rgba(30, 41, 59, 0.5) !important;
+}
+
+/* Chart Styles */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #1e293b !important;
+}
+
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 0.5rem;
+}

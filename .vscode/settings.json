@@ -1,0 +1,4 @@
+{
+  "cssvar.files": ["apps/dashboard/node_modules/@mantine/core/styles.css"],
+  "cssvar.extensions": ["css", "scss", "tsx", "jsx"]
+}
